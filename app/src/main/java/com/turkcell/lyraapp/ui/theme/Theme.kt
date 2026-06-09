@@ -23,13 +23,13 @@ private val LyraDarkColors = darkColorScheme(
     onError              = DarkOnError,
     errorContainer       = DarkErrorContainer,
     onErrorContainer     = DarkOnErrorContainer,
-    background           = DarkSurface,        // türetilen: surface ile aynı
-    onBackground         = DarkOnSurface,      // türetilen: onSurface ile aynı
+    background           = DarkSurface,
+    onBackground         = DarkOnSurface,
     surface              = DarkSurface,
     onSurface            = DarkOnSurface,
     surfaceVariant       = DarkSurfaceVariant,
     onSurfaceVariant     = DarkOnSurfaceVariant,
-    surfaceTint          = DarkPrimary,        // M3 varsayılanı = primary
+    surfaceTint          = DarkPrimary,
     surfaceDim           = DarkSurfaceDim,
     surfaceBright        = DarkSurfaceBright,
     surfaceContainerLowest  = DarkSurfaceContainerLowest,
@@ -87,13 +87,13 @@ private val LyraLightColors = lightColorScheme(
 @Composable
 fun LyraAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // KURAL: Dynamic Color KAPALI. Marka paleti her cihazda sabit kalmalı.
+    // KURAL: Dynamic Color KAPALI. Marka paleti her cihazda sabit kalmali.
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) LyraDarkColors else LyraLightColors
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = LyraTypography,
         content = content,
     )
 }

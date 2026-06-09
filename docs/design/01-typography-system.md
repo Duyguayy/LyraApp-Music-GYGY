@@ -1,3 +1,35 @@
+# LyraApp - Tipografi Sistemi
+
+> Bu dosya LyraApp uygulamasının tipografi sistemi için
+> **tek doğruluk kaynağıdır** (single source of truth) ve
+> doğrudan bir **Android Jetpack Compose** projesinde kullanılmak
+> üzere düzenlenmiştir.
+
+---
+
+## 1. Temel Kural
+
+> Hiçbir `@Composable` içinde ham `TextStyle(fontSize = X.sp)` yazılmaz.
+> Tipler daima `MaterialTheme.typography.<slot>` üzerinden
+> okunmak zorundadır.
+
+Ham `TextStyle(..)` tanımı yalnızca `Type.kt` içinde, sabit değişken tanımlanırken kullanılır.
+
+---
+
+## 2. Yazı Tipi Ailesi
+
+| Slot         | Değer                  | Notlar                            |
+|--------------|------------------------|-----------------------------------|
+| FontFamily   | `FontFamily.Default`   | Sistem fontu (Roboto / sans-serif) |
+
+> Özel bir font entegre edildiğinde bu tablo güncellenmelidir.
+
+---
+
+## 3. `Type.kt` — TextStyle Token Tanımları
+
+```kotlin
 package com.turkcell.lyraapp.ui.theme
 
 import androidx.compose.material3.Typography
@@ -55,7 +87,7 @@ val LyraTypography = Typography(
     ),
 
     // ── Title ─────────────────────────────────────────────────────────────
-    // Kullanim: Playlist adi, ekran basligi (or. "Gece Surusu", "Profil")
+    // Kullanım: Playlist adı, ekran başlığı (ör. "Gece Sürüşü", "Profil")
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
@@ -63,7 +95,7 @@ val LyraTypography = Typography(
         lineHeight = 28.sp,
         letterSpacing = 0.sp,
     ),
-    // Kullanim: Bolum basliklari (or. "Sarki ekle", "Gorunum")
+    // Kullanım: Bölüm başlıkları (ör. "Şarkı ekle", "Görünüm")
     titleMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -71,7 +103,7 @@ val LyraTypography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp,
     ),
-    // Kullanim: Liste ogesi basligi (or. sarki adi: "Neon Sokaklar")
+    // Kullanım: Liste öğesi başlığı (ör. şarkı adı: "Neon Sokaklar")
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -81,7 +113,7 @@ val LyraTypography = Typography(
     ),
 
     // ── Body ──────────────────────────────────────────────────────────────
-    // Kullanim: Playlist aciklamasi (or. "Karanlik yildiz icin synthpop")
+    // Kullanım: Playlist açıklaması (ör. "Karanlık yıldız için synthpop")
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -89,7 +121,7 @@ val LyraTypography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
     ),
-    // Kullanim: Sanatci adi, meta bilgi (or. "Zeynep Kaya · 6 sarki · 23 dk")
+    // Kullanım: Sanatçı adı, meta bilgi (ör. "Zeynep Kaya · 6 şarkı · 23 dk")
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -97,7 +129,7 @@ val LyraTypography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
     ),
-    // Kullanim: Ikincil meta bilgi, toggle aciklamasi (or. "Profilinizde gorunsun")
+    // Kullanım: İkincil meta bilgi, toggle açıklaması (ör. "Profilinizde görünsün")
     bodySmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -107,7 +139,7 @@ val LyraTypography = Typography(
     ),
 
     // ── Label ─────────────────────────────────────────────────────────────
-    // Kullanim: Buton metni (or. "Cal", "Kaydet"), BottomNav etiketi
+    // Kullanım: Buton metni (ör. "Çal", "Kaydet"), BottomNav etiketi
     labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -115,7 +147,7 @@ val LyraTypography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
     ),
-    // Kullanim: Sure bilgisi (or. "3:43"), rozet metni
+    // Kullanım: Süre bilgisi (ör. "3:43"), rozet metni
     labelMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -123,7 +155,7 @@ val LyraTypography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
     ),
-    // Kullanim: Istatistik degerleri (or. "1.2B Takipci"), cok kucuk etiketler
+    // Kullanım: İstatistik değerleri (ör. "1.2B Takipçi"), çok küçük etiketler
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -132,3 +164,53 @@ val LyraTypography = Typography(
         letterSpacing = 0.5.sp,
     ),
 )
+```
+
+---
+
+## 4. `Theme.kt` İçinde Kullanım
+
+`MaterialTheme` çağrısında `typography` parametresine `LyraTypography` atanmalıdır:
+
+```kotlin
+MaterialTheme(
+    colorScheme = colorScheme,
+    typography = LyraTypography,
+    content = content,
+)
+```
+
+> `Type.kt` içindeki mevcut `Typography` değişkeni `LyraTypography` olarak yeniden adlandırılmalıdır.
+> `Theme.kt` içindeki referans da buna göre güncellenmelidir.
+
+---
+
+## 5. Slot Kullanım Rehberi (UI Referansı)
+
+Aşağıdaki tablo, ekran tasarımından türetilmiş kullanım önerileri içermektedir.
+
+| Ekran Bileşeni                        | Typography Slot   |
+|---------------------------------------|-------------------|
+| Playlist / ekran başlığı              | `titleLarge`      |
+| Playlist açıklaması                   | `bodyMedium`      |
+| Şarkı adı (liste öğesi)               | `titleSmall`      |
+| Sanatçı adı (liste öğesi)             | `bodySmall`       |
+| Şarkı süresi (ör. 3:43)               | `labelMedium`     |
+| Bölüm başlığı (ör. "Şarkı ekle")      | `titleMedium`     |
+| Buton metni (ör. "Çal", "Kaydet")     | `labelLarge`      |
+| BottomNav etiketi                     | `labelMedium`     |
+| Toggle açıklaması                     | `bodySmall`       |
+| Profil kullanıcı adı                  | `titleMedium`     |
+| Profil istatistikleri (sayı)          | `titleSmall`      |
+| Profil istatistikleri (etiket)        | `labelSmall`      |
+| Ayar satırı başlığı                   | `bodyLarge`       |
+| Ayar satırı değeri (ör. "Yüksek")     | `bodyMedium`      |
+
+---
+
+## 6. Kurallar
+
+1. `@Composable` içinde ham `TextStyle` veya `fontSize` kullanımı yasaktır.
+2. Her metin bileşeni `MaterialTheme.typography.<slot>` üzerinden stil almalıdır.
+3. Yeni bir tipografik ihtiyaç doğduğunda önce bu dosyaya eklenmeli, ardından `Type.kt` güncellenmeli ve onay alınmalıdır.
+4. `FontWeight` değerleri yukarıdaki tabloda tanımlanan değerlerle sınırlıdır; keyfi ağırlık kullanımı yasaktır.
